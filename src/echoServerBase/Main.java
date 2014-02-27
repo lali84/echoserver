@@ -14,6 +14,14 @@ public class Main {
 		final Thread timeServer = new Thread(new TimeServer(Integer.parseInt(args[2])));
 		timeServer.start();
 
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			@Override
+			public void run() {
+				echoServer.interrupt();
+				datetimeServer.interrupt();
+				timeServer.interrupt();
+			}
+		});
 		Thread tester = new Thread(new Tester(args));
 		tester.start();
 	}
